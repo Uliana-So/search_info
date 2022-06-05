@@ -1,7 +1,7 @@
 # search_info
 
 ## About project
-A little web-app which returns one question per request for a quiz.
+A small web application that returns found words or deletes an entry by id.
 
 ## Requirements for Linux
 - make
