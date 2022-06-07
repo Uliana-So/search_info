@@ -18,4 +18,4 @@ clean:	rm
 
 fclean:	stop clean
 
-.PHONY:	all up down stop rm
+.PHONY:	all up down stop rm clean fclean
