@@ -2,6 +2,7 @@ import logging
 import logging.config
 from flask import Flask
 from flask import request, jsonify, make_response
+from urllib.parse import urlparse
 
 from .db_connect import db_session
 from .db_interplay import remove_post, search_post
@@ -46,22 +47,33 @@ def search(find_str: str):
     return make_response(jsonify(res_data), 200)
 
 
-@app.route("/posts", methods=["POST"])
-def read_request():
+@app.route("/find", methods=["GET"])
+def read_request_find():
     try:
-        if (len(request.json) == 1 and
-                isinstance(request.json.get("remove"), int) and
-                request.json["remove"] > 0):
-            return remove(request.json["remove"])
-
-        if (len(request.json) == 1 and
-                isinstance(request.json.get("search"), str)):
-            return search(request.json["search"])
+        data = urlparse(request.url).query.split("=")
+        if data and len(data) == 2 and "search" in data:
+            return search(data[1])
 
     except Exception as error:
         logging.error(error, exc_info=True)
+        return make_response(jsonify(), 400)
 
-    return make_response(status=400)
+    return make_response(jsonify(), 400)
+
+
+@app.route("/remove", methods=["GET"])
+def read_request_remove():
+    try:
+        data = urlparse(request.url).query.split("=")
+        if (data and len(data) == 2 and "delete" in data and
+                data[1].isdigit and int(data[1]) > 0):
+            return remove(int(data[1]))
+
+    except Exception as error:
+        logging.error(error, exc_info=True)
+        return make_response(jsonify(), 400)
+
+    return make_response(jsonify(), 400)
 
 
 @app.teardown_appcontext

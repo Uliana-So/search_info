@@ -15,7 +15,7 @@ Need to call `make` (or `sudo make`). It depends on your access level for docker
 
 ##### Request
 ```
-curl -i -X POST -H "Content-Type: application/json" 127.0.0.1:8080/posts -d '{"search":"привет"}'
+curl -i 127.0.0.1:8000/find?search=дратути
 ```
 
 ##### Response
@@ -32,7 +32,7 @@ Connection: keep-alive
 
 ##### Request
 ```
-curl -i -X POST -H "Content-Type: application/json" 127.0.0.1:8000/posts -d '{"remove":5}'
+curl -i 127.0.0.1:8000/remove?delete=5
 ```
 
 ##### Response
